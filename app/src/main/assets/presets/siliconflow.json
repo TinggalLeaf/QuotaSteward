@@ -1,0 +1,15 @@
+{
+  "id": "siliconflow",
+  "name": "SiliconFlow 余额",
+  "providerKey": "siliconflow",
+  "urlTemplate": "https://api.siliconflow.cn/v1/user/info",
+  "method": "GET",
+  "headers": [
+    { "key": "Authorization", "value": "Bearer {{apiKey}}" }
+  ],
+  "variables": ["apiKey"],
+  "unit": "CNY",
+  "iconAsset": "siliconflow.svg",
+  "note": "SiliconFlow (硅基流动) 账户余额",
+  "scriptSource": "{\"validWhen\":\"response.data != null\",\"planName\":{\"literal\":\"SiliconFlow\"},\"remaining\":{\"path\":\"response.data.totalBalance\"},\"unit\":\"CNY\"}"
+}

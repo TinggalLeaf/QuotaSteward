@@ -1,0 +1,15 @@
+{
+  "id": "minimax",
+  "name": "MiniMax",
+  "providerKey": "minimax",
+  "urlTemplate": "https://api.minimaxi.com/v1/api/openplatform/coding_plan/remains",
+  "method": "GET",
+  "headers": [
+    { "key": "Authorization", "value": "Bearer {{apiKey}}" }
+  ],
+  "variables": ["apiKey"],
+  "unit": "REQUESTS",
+  "iconAsset": "minimax.svg",
+  "note": "MiniMax 编程套餐剩余百分比",
+  "scriptSource": "{\"validWhen\":\"response.base_resp.status_code == 0\",\"tiers\":[{\"name\":\"five_hour\",\"utilization\":{\"path\":\"response.model_remains[?(@.model_name=='general')].current_interval_remaining_percent\",\"transform\":\"first,flip100\"},\"resetTime\":{\"path\":\"response.model_remains[?(@.model_name=='general')].end_time\",\"transform\":\"first\"}},{\"name\":\"weekly_limit\",\"utilization\":{\"path\":\"response.model_remains[?(@.model_name=='general')].current_weekly_remaining_percent\",\"transform\":\"first,flip100\"},\"resetTime\":{\"path\":\"response.model_remains[?(@.model_name=='general')].weekly_end_time\",\"transform\":\"first\"}}],\"unit\":\"REQUESTS\"}"
+}

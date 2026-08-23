@@ -1,0 +1,16 @@
+{
+  "id": "openai_balance",
+  "name": "OpenAI 余额 (通用)",
+  "providerKey": "openai",
+  "urlTemplate": "{{baseUrl}}/user/balance",
+  "method": "GET",
+  "headers": [
+    { "key": "Authorization", "value": "Bearer {{apiKey}}" },
+    { "key": "User-Agent", "value": "AIQuotaDashboard/1.0 (Android)" }
+  ],
+  "variables": ["baseUrl", "apiKey"],
+  "unit": "USD",
+  "iconAsset": "openai.svg",
+  "note": "兼容 OpenAI 用户余额接口",
+  "scriptSource": "{\"validWhen\":\"response.is_active == true\",\"planName\":{\"literal\":\"OpenAI Account\"},\"remaining\":{\"path\":\"response.balance\"},\"unit\":\"USD\"}"
+}

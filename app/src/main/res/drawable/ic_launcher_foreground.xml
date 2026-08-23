@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  配额管家 (QuotaSteward) adaptive icon foreground.
+  Concept: a stylized gauge/dial mark.
+  - Outer bezel ring (subtle metallic)
+  - Color-coded arc (green → yellow → orange → red) representing quota zones
+  - Needle pointing into the "healthy" green zone (~70%)
+  - Center hub
+  - Three dots below indicating "multiple AI services"
+  Canvas is 108x108dp, safe area is the central 72dp square (18..90).
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Outer bezel ring -->
+    <path
+        android:pathData="M54,24 a30,30 0 1 0 0.01,0 z"
+        android:strokeWidth="1.5"
+        android:strokeColor="#33FFFFFF"
+        android:fillColor="#00000000" />
+
+    <!-- Gauge color arc — split into 4 zone segments (270° arc from 135° to 45°) -->
+    <!-- Green zone: 135° to 180° -->
+    <path
+        android:pathData="M30.0,67.5 A24,24 0 0,1 30.0,40.5"
+        android:strokeWidth="6"
+        android:strokeLineCap="round"
+        android:fillColor="#00000000">
+        <aapt:attr name="android:strokeColor">
+            <gradient
+                android:type="linear"
+                android:startX="24"
+                android:startY="36"
+                android:endX="44"
+                android:endY="64">
+                <item android:color="#FF22C55E" android:offset="0.0" />
+                <item android:color="#FF16A34A" android:offset="1.0" />
+            </gradient>
+        </aapt:attr>
+    </path>
+
+    <!-- Yellow zone: 180° to 225° -->
+    <path
+        android:pathData="M30.0,40.5 A24,24 0 0,1 45.1,22.6"
+        android:strokeWidth="6"
+        android:strokeLineCap="round"
+        android:fillColor="#00000000">
+        <aapt:attr name="android:strokeColor">
+            <gradient
+                android:type="linear"
+                android:startX="30"
+                android:startY="38"
+                android:endX="46"
+                android:endY="22">
+                <item android:color="#FF22C55E" android:offset="0.0" />
+                <item android:color="#FFEAB308" android:offset="1.0" />
+            </gradient>
+        </aapt:attr>
+    </path>
+
+    <!-- Orange zone: 225° to 270° -->
+    <path
+        android:pathData="M45.1,22.6 A24,24 0 0,1 64.0,22.6"
+        android:strokeWidth="6"
+        android:strokeLineCap="round"
+        android:fillColor="#00000000">
+        <aapt:attr name="android:strokeColor">
+            <gradient
+                android:type="linear"
+                android:startX="44"
+                android:startY="22"
+                android:endX="64"
+                android:endY="22">
+                <item android:color="#FFEAB308" android:offset="0.0" />
+                <item android:color="#FFF97316" android:offset="1.0" />
+            </gradient>
+        </aapt:attr>
+    </path>
+
+    <!-- Red zone: 270° to 315° -->
+    <path
+        android:pathData="M64.0,22.6 A24,24 0 0,1 78.0,40.5"
+        android:strokeWidth="6"
+        android:strokeLineCap="round"
+        android:fillColor="#00000000">
+        <aapt:attr name="android:strokeColor">
+            <gradient
+                android:type="linear"
+                android:startX="62"
+                android:startY="22"
+                android:endX="80"
+                android:endY="40">
+                <item android:color="#FFF97316" android:offset="0.0" />
+                <item android:color="#FFDC2626" android:offset="1.0" />
+            </gradient>
+        </aapt:attr>
+    </path>
+
+    <!-- Tick marks at 50% and 100% (subtle) -->
+    <path
+        android:pathData="M30,40.5 L33,42"
+        android:strokeWidth="1.5"
+        android:strokeColor="#FFFFFFFF"
+        android:fillColor="#00000000" />
+    <path
+        android:pathData="M78,40.5 L75,42"
+        android:strokeWidth="1.5"
+        android:strokeColor="#FFFFFFFF"
+        android:fillColor="#00000000" />
+
+    <!-- Needle (pointing into green zone, ~67% mark) -->
+    <!-- Pivot at (54, 54). Needle tip at ~30° from horizontal-left, so roughly (38, 38) -->
+    <path
+        android:pathData="M54,54 L40,40 L43,37 L54,52 Z"
+        android:fillColor="#FFFFFFFF" />
+
+    <!-- Center hub -->
+    <path
+        android:pathData="M54,54 m-5,0 a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0 z"
+        android:fillColor="#FFFFFFFF" />
+    <path
+        android:pathData="M54,54 m-2.5,0 a2.5,2.5 0 1,0 5,0 a2.5,2.5 0 1,0 -5,0 z"
+        android:fillColor="#FF6F00" />
+
+    <!-- Three service indicators below the gauge -->
+    <path
+        android:pathData="M48,84 m-2,0 a2,2 0 1,0 4,0 a2,2 0 1,0 -4,0 z"
+        android:fillColor="#66FFFFFF" />
+    <path
+        android:pathData="M54,84 m-2.5,0 a2.5,2.5 0 1,0 5,0 a2.5,2.5 0 1,0 -5,0 z"
+        android:fillColor="#FF6F00" />
+    <path
+        android:pathData="M60,84 m-2,0 a2,2 0 1,0 4,0 a2,2 0 1,0 -4,0 z"
+        android:fillColor="#66FFFFFF" />
+
+</vector>

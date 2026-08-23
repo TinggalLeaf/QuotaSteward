@@ -1,0 +1,16 @@
+{
+  "id": "deepseek",
+  "name": "DeepSeek",
+  "providerKey": "deepseek",
+  "urlTemplate": "https://api.deepseek.com/user/balance",
+  "method": "GET",
+  "headers": [
+    { "key": "Authorization", "value": "Bearer {{apiKey}}" },
+    { "key": "Accept", "value": "application/json" }
+  ],
+  "variables": ["apiKey"],
+  "unit": "CNY",
+  "iconAsset": "deepseek.svg",
+  "note": "DeepSeek 官方账户余额",
+  "scriptSource": "{\"validWhen\":\"response.balance_infos[0].is_available == true\",\"invalidMessage\":{\"path\":\"response.balance_infos[0].description\",\"default\":\"账户不可用\"},\"planName\":{\"path\":\"response.balance_infos[0].currency\",\"default\":\"CNY\"},\"remaining\":{\"path\":\"response.balance_infos[0].total_balance\"},\"unit\":\"CNY\"}"
+}

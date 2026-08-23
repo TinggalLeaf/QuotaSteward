@@ -1,0 +1,107 @@
+name: Build APKs & AAB
+
+# Triggers:
+#   - Every push to main and PR
+#   - Manual dispatch (for ad-hoc builds)
+#   - When a release-* branch is updated (used by release-please)
+on:
+  push:
+    branches: [main, release-*]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      variant:
+        description: 'Which build variant to run'
+        required: true
+        type: choice
+        default: all
+        options:
+          - all
+          - debug
+          - release
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build (${{ matrix.variant }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - variant: debug
+            task: assembleDebug
+            artifact: app-debug
+          - variant: release
+            task: assembleRelease
+            artifact: app-release
+          - variant: bundle
+            task: bundleRelease
+            artifact: app-bundle
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Validate Gradle wrapper
+        uses: gradle/wrapper-validation-action@v3
+
+      - name: Cache Gradle / Kotlin / AAPT2 caches
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+            ~/.gradle/notifications
+            ~/.android/build-cache
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', 'gradle/libs.versions.toml') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+
+      - name: Build ${{ matrix.variant }}
+        run: ./gradlew ${{ matrix.task }} --stacktrace --no-daemon
+
+      - name: Locate APK/AAB outputs
+        id: collect
+        run: |
+          mkdir -p artifacts
+          shopt -s nullglob
+          for f in app/build/outputs/apk/${{ matrix.variant }}/**/*.apk \
+                   app/build/outputs/apk/${{ matrix.variant }}/*.apk \
+                   app/build/outputs/bundle/${{ matrix.variant }}/*.aab; do
+            [ -f "$f" ] || continue
+            base=$(basename "$f")
+            cp "$f" "artifacts/${matrix.artifact}-${base}"
+            echo "copied $f"
+          done
+          echo "files=$(ls -1 artifacts | wc -l)" >> "$GITHUB_OUTPUT"
+          ls -la artifacts/
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact }}-${{ github.sha }}
+          path: artifacts/
+          if-no-files-found: error
+          retention-days: 14

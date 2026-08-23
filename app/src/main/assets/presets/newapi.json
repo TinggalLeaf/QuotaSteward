@@ -1,0 +1,18 @@
+{
+  "id": "newapi",
+  "name": "NewAPI / OneAPI",
+  "providerKey": "newapi",
+  "urlTemplate": "{{baseUrl}}/api/user/self",
+  "method": "GET",
+  "headers": [
+    { "key": "Content-Type", "value": "application/json" },
+    { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+    { "key": "User-Agent", "value": "AIQuotaDashboard/1.0 (Android)" },
+    { "key": "New-Api-User", "value": "{{userId}}" }
+  ],
+  "variables": ["baseUrl", "accessToken", "userId"],
+  "unit": "USD",
+  "iconAsset": "newapi.svg",
+  "note": "NewAPI / OneAPI 通用网关,需提供 userId 与 accessToken",
+  "scriptSource": "{\"validWhen\":\"response.success == true\",\"planName\":{\"path\":\"response.data.group\",\"default\":\"默认套餐\"},\"remaining\":{\"path\":\"response.data.quota\",\"divide\":500000},\"used\":{\"path\":\"response.data.used_quota\",\"divide\":500000},\"total\":{\"expr\":\"remaining + used\"},\"unit\":\"USD\"}"
+}

@@ -1,0 +1,59 @@
+name: Release Please
+
+# Runs release-please to:
+#   1. Open / update a release PR with version bump + CHANGELOG.md
+#   2. When that PR is merged, tag the release + create a GitHub Release
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+  id-token: write
+
+concurrency:
+  group: release-please-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run release-please
+        id: release
+        uses: googleapis/release-please-action@v4
+        with:
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json
+          # Token used for both pushing the release PR and creating tags/releases
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload release artifacts
+        if: ${{ steps.release.outputs.release_created }}
+        needs: release-please
+        # Re-run the release assemble task so we attach the freshly
+        # built APK(s) and AAB to the GitHub Release.
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Build release artifacts
+        if: ${{ steps.release.outputs.release_created }}
+        uses: ./.github/workflows/reusable-build.yml
+        with:
+          variant: release
+          artifact-prefix: release-${{ steps.release.outputs.tag_name }}
+        secrets: inherit

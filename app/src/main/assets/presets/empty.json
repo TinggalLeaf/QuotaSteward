@@ -1,0 +1,13 @@
+{
+  "id": "empty",
+  "name": "占位 (空模板)",
+  "providerKey": "custom",
+  "urlTemplate": "",
+  "method": "GET",
+  "headers": [],
+  "variables": [],
+  "unit": "USD",
+  "iconAsset": null,
+  "note": "空模板,用作测试或禁用预设",
+  "scriptSource": "{\"remaining\":{\"literal\":0},\"unit\":\"USD\"}"
+}

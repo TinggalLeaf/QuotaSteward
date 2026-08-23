@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">配额管家</string>
+    <string name="app_name_zh">配额管家</string>
+    <string name="app_name_en">QuotaSteward</string>
+</resources>

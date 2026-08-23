@@ -1,0 +1,15 @@
+{
+  "id": "gemini_oauth",
+  "name": "Gemini 官方 (OAuth)",
+  "providerKey": "gemini",
+  "urlTemplate": "",
+  "method": "GET",
+  "headers": [
+    { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+  ],
+  "variables": ["accessToken"],
+  "unit": "REQUESTS",
+  "iconAsset": "gemini.svg",
+  "note": "Gemini 官方编程套餐 (需要两步 OAuth 流程,暂存空模板)",
+  "scriptSource": "{\"validWhen\":\"false\",\"invalidMessage\":{\"literal\":\"Gemini OAuth 流程暂未实现,需先 loadCodeAssist 获取 project\"}}"
+}

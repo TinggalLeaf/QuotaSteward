@@ -1,0 +1,16 @@
+{
+  "id": "anthropic_oauth",
+  "name": "Claude 官方 (OAuth)",
+  "providerKey": "anthropic",
+  "urlTemplate": "https://api.anthropic.com/api/oauth/usage",
+  "method": "GET",
+  "headers": [
+    { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+    { "key": "anthropic-beta", "value": "oauth-2025-04-20" }
+  ],
+  "variables": ["accessToken"],
+  "unit": "REQUESTS",
+  "iconAsset": "anthropic.svg",
+  "note": "Anthropic 官方 OAuth 编程套餐 (5h + 7d)",
+  "scriptSource": "{\"tiers\":[{\"name\":\"five_hour\",\"utilization\":{\"path\":\"response.five_hour.utilization\"},\"resetTime\":{\"path\":\"response.five_hour.resets_at\"}},{\"name\":\"seven_day\",\"utilization\":{\"path\":\"response.seven_day.utilization\"},\"resetTime\":{\"path\":\"response.seven_day.resets_at\"}},{\"name\":\"seven_day_opus\",\"utilization\":{\"path\":\"response.seven_day_opus.utilization\"},\"resetTime\":{\"path\":\"response.seven_day_opus.resets_at\"}},{\"name\":\"seven_day_sonnet\",\"utilization\":{\"path\":\"response.seven_day_sonnet.utilization\"},\"resetTime\":{\"path\":\"response.seven_day_sonnet.resets_at\"}}],\"extra\":{\"monthly_limit\":{\"path\":\"response.extra_usage.monthly_limit\"},\"used_credits\":{\"path\":\"response.extra_usage.used_credits\"}},\"unit\":\"REQUESTS\"}"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "codex_oauth",
+  "name": "Codex 官方 (OAuth)",
+  "providerKey": "codex",
+  "urlTemplate": "https://chatgpt.com/backend-api/wham/usage",
+  "method": "GET",
+  "headers": [
+    { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+    { "key": "User-Agent", "value": "codex-cli" }
+  ],
+  "variables": ["accessToken"],
+  "unit": "REQUESTS",
+  "iconAsset": "openai.svg",
+  "note": "ChatGPT Codex 编程套餐",
+  "scriptSource": "{\"tiers\":[{\"name\":\"five_hour\",\"utilization\":{\"path\":\"response.rate_limit.primary_window.used_percent\"},\"resetTime\":{\"path\":\"response.rate_limit.primary_window.reset_at\"}},{\"name\":\"secondary\",\"utilization\":{\"path\":\"response.rate_limit.secondary_window.used_percent\"},\"resetTime\":{\"path\":\"response.rate_limit.secondary_window.reset_at\"}}],\"unit\":\"REQUESTS\"}"
+}

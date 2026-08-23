@@ -1,0 +1,17 @@
+{
+  "id": "zhipu_glm",
+  "name": "智谱 GLM 编程套餐",
+  "providerKey": "zhipu",
+  "urlTemplate": "https://open.bigmodel.cn/api/monitor/usage/quota/limit",
+  "method": "GET",
+  "headers": [
+    { "key": "Authorization", "value": "{{apiKey}}" },
+    { "key": "Content-Type", "value": "application/json" },
+    { "key": "Accept-Language", "value": "en-US,en" }
+  ],
+  "variables": ["apiKey"],
+  "unit": "TOKENS",
+  "iconAsset": "zhipu.svg",
+  "note": "智谱 BigModel 编程套餐,key 不加 Bearer 前缀",
+  "scriptSource": "{\"validWhen\":\"response.data != null\",\"planName\":{\"path\":\"response.data.level\"},\"tiers\":[{\"name\":\"five_hour\",\"utilization\":{\"path\":\"response.data.limits[?(@.type=='TOKENS_LIMIT')].percentage\",\"transform\":\"first\"}},{\"name\":\"weekly_limit\",\"utilization\":{\"path\":\"response.data.limits[?(@.type=='TOKENS_LIMIT')].percentage\",\"transform\":\"first\"}}],\"unit\":\"TOKENS\"}"
+}

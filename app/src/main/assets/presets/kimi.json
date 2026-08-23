@@ -1,0 +1,15 @@
+{
+  "id": "kimi_coding",
+  "name": "Kimi For Coding",
+  "providerKey": "kimi",
+  "urlTemplate": "https://api.kimi.com/coding/v1/usages",
+  "method": "GET",
+  "headers": [
+    { "key": "Authorization", "value": "Bearer {{apiKey}}" }
+  ],
+  "variables": ["apiKey"],
+  "unit": "REQUESTS",
+  "iconAsset": "kimi.svg",
+  "note": "Moonshot Kimi 编程套餐 (5h + 周限额)",
+  "scriptSource": "{\"validWhen\":\"response.limits != null\",\"tiers\":[{\"name\":\"five_hour\",\"utilization\":{\"expr\":\"100 * (1 - response.limits[0].detail.remaining / response.limits[0].detail.limit)\"},\"remaining\":{\"path\":\"response.limits[0].detail.remaining\"},\"total\":{\"path\":\"response.limits[0].detail.limit\"},\"resetTime\":{\"path\":\"response.limits[0].detail.resetTime\"}},{\"name\":\"weekly_limit\",\"utilization\":{\"expr\":\"100 * (1 - response.usage.remaining / response.usage.limit)\"},\"remaining\":{\"path\":\"response.usage.remaining\"},\"total\":{\"path\":\"response.usage.limit\"},\"resetTime\":{\"path\":\"response.usage.resetTime\"}}],\"unit\":\"REQUESTS\"}"
+}
