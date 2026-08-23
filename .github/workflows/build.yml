@@ -91,7 +91,15 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: Build ${{ matrix.variant }}
-        run: ./gradlew ${{ matrix.task }} --stacktrace --no-daemon
+        # AGP refuses to build APK splits + AAB bundle in the same
+        # Gradle invocation. For bundle builds, pass -PnoSplits so
+        # the splits block in build.gradle.kts is disabled.
+        run: |
+          EXTRA_FLAGS=""
+          if [ "${{ matrix.variant }}" = "bundle" ]; then
+            EXTRA_FLAGS="-PnoSplits"
+          fi
+          ./gradlew ${{ matrix.task }} $EXTRA_FLAGS --stacktrace --no-daemon
 
       - name: Locate APK/AAB outputs
         id: collect

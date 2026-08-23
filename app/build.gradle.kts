@@ -30,12 +30,15 @@ android {
     }
 
     // APK splits: one APK per ABI. Universal APK is still produced for legacy.
+    // Disabled when building an AAB bundle (AGP refuses to mix the two — see
+    // https://issuetracker.google.com/402800800). The -PnoSplits flag is set
+    // by the bundleRelease job in build.yml.
     splits {
         abi {
-            isEnable = true
+            isEnable = !project.hasProperty("noSplits")
             reset()
             include("arm64-v8a", "armeabi-v7a")
-            isUniversalApk = true
+            isUniversalApk = !project.hasProperty("noSplits")
         }
     }
 
