@@ -3,6 +3,8 @@ name: Release Please
 # Runs release-please to:
 #   1. Open / update a release PR with version bump + CHANGELOG.md
 #   2. When that PR is merged, tag the release + create a GitHub Release
+#   3. The release tag (v*) triggers .github/workflows/build.yml which
+#      builds the APK + AAB and uploads them to the Release.
 on:
   push:
     branches: [main]
@@ -40,20 +42,3 @@ jobs:
           manifest-file: .release-please-manifest.json
           # Token used for both pushing the release PR and creating tags/releases
           token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Upload release artifacts
-        if: ${{ steps.release.outputs.release_created }}
-        needs: release-please
-        # Re-run the release assemble task so we attach the freshly
-        # built APK(s) and AAB to the GitHub Release.
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Build release artifacts
-        if: ${{ steps.release.outputs.release_created }}
-        uses: ./.github/workflows/reusable-build.yml
-        with:
-          variant: release
-          artifact-prefix: release-${{ steps.release.outputs.tag_name }}
-        secrets: inherit
