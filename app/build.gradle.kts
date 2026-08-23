@@ -30,17 +30,16 @@ android {
         }
     }
 
-    // APK splits: build one APK per ABI + density combination so users
-    // download only what their device needs.
+    // APK splits: build one APK per ABI so users download only what their
+    // device needs. (Density splits are intentionally not enabled — our
+    // resources are density-agnostic and shipping per-density APKs would
+    // explode the artifact count without measurable savings.)
     splits {
         abi {
             isEnable = true
             reset()
             include("arm64-v8a", "armeabi-v7a", "x86_64", "x86")
             isUniversalApk = true   // also ship a fat universal APK
-        }
-        density {
-            isEnable = false        // our resources are density-agnostic
         }
     }
 
