@@ -3,10 +3,11 @@ name: Build APKs & AAB
 # Triggers:
 #   - Every push to main and PR
 #   - Manual dispatch (for ad-hoc builds)
-#   - When a release-* branch is updated (used by release-please)
+#   - When release-please pushes a tag (vX.Y.Z) — builds the release artifacts
 on:
   push:
     branches: [main, release-*]
+    tags: ['v*']
   pull_request:
     branches: [main]
   workflow_dispatch:
