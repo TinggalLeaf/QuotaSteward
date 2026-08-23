@@ -41,10 +41,13 @@ fun ProviderIcon(
     var failed by remember(asset) { mutableStateOf(false) }
 
     val shape = RoundedCornerShape(14.dp)
-    val isPng = asset?.endsWith(".png", ignoreCase = true) == true
+    val isRaster = asset?.let {
+        val lower = it.lowercase()
+        lower.endsWith(".png") || lower.endsWith(".webp") || lower.endsWith(".jpg") || lower.endsWith(".jpeg")
+    } == true
 
-    // Fallback chip for missing/non-PNG/failed assets.
-    if (asset.isNullOrBlank() || !isPng || failed) {
+    // Fallback chip for missing/non-raster/failed assets.
+    if (asset.isNullOrBlank() || !isRaster || failed) {
         val seed = service.name.trim().firstOrNull()?.toString()?.uppercase() ?: "?"
         val (bg, fg) = chipColors(service.id, cs.surfaceVariant, cs.onSurface)
         Box(
