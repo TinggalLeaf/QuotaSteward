@@ -93,15 +93,18 @@ jobs:
           OUTPUT_DIR: ${{ matrix.outputDir }}
         run: |
           mkdir -p artifacts
-          shopt -s nullglob
-          for f in ${{ matrix.outputDir }}/**/*.{apk,aab}; do
+          shopt -s nullglob dotglob
+          found=0
+          for f in "$OUTPUT_DIR"/**/*.apk "$OUTPUT_DIR"/**/*.aab "$OUTPUT_DIR"/*.apk "$OUTPUT_DIR"/*.aab; do
             [ -f "$f" ] || continue
             base=$(basename "$f")
             cp "$f" "artifacts/${ARTIFACT_PREFIX}-${base}"
             echo "copied $f -> artifacts/${ARTIFACT_PREFIX}-${base}"
+            found=$((found + 1))
           done
-          echo "files=$(ls -1 artifacts | wc -l)" >> "$GITHUB_OUTPUT"
-          ls -la artifacts/
+          echo "files=$found" >> "$GITHUB_OUTPUT"
+          echo "---artifacts directory:---"
+          ls -la artifacts/ || echo "(empty)"
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
