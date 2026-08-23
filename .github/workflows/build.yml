@@ -40,12 +40,15 @@ jobs:
         include:
           - variant: debug
             task: assembleDebug
+            outputDir: app/build/outputs/apk/debug
             artifact: app-debug
           - variant: release
             task: assembleRelease
+            outputDir: app/build/outputs/apk/release
             artifact: app-release
           - variant: bundle
             task: bundleRelease
+            outputDir: app/build/outputs/bundle/release
             artifact: app-bundle
     steps:
       - name: Checkout
@@ -87,12 +90,11 @@ jobs:
         id: collect
         env:
           ARTIFACT_PREFIX: ${{ matrix.artifact }}
+          OUTPUT_DIR: ${{ matrix.outputDir }}
         run: |
           mkdir -p artifacts
           shopt -s nullglob
-          for f in app/build/outputs/apk/${{ matrix.variant }}/**/*.apk \
-                   app/build/outputs/apk/${{ matrix.variant }}/*.apk \
-                   app/build/outputs/bundle/${{ matrix.variant }}/*.aab; do
+          for f in ${{ matrix.outputDir }}/**/*.{apk,aab}; do
             [ -f "$f" ] || continue
             base=$(basename "$f")
             cp "$f" "artifacts/${ARTIFACT_PREFIX}-${base}"
